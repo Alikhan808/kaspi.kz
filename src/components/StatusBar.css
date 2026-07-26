@@ -1,0 +1,31 @@
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 8px;
+  background: var(--kaspi-bg);
+  flex-shrink: 0;
+}
+
+.status-time {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-battery {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.battery-pct {
+  font-size: 13px;
+  font-weight: 600;
+}

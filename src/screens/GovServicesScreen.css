@@ -1,0 +1,126 @@
+.gov-screen {
+  min-height: 100%;
+  background: var(--kaspi-bg);
+}
+
+.gov-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 16px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.gov-header h1 {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.gov-tabs {
+  display: flex;
+  background: #ececec;
+  border-radius: 14px;
+  padding: 4px;
+  margin: 0 16px 16px;
+}
+
+.gov-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #6b6b70;
+}
+
+.gov-tab--active {
+  background: #fff;
+  color: #1c1c1e;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.gov-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ececec;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 0 16px 16px;
+}
+
+.gov-search span {
+  color: #9a9a9f;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.gov-quick-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0 16px 20px;
+  scrollbar-width: none;
+}
+
+.gov-quick-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.gov-quick-card {
+  flex-shrink: 0;
+  width: 150px;
+  min-height: 90px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  line-height: 1.25;
+  color: #1c1c1e;
+}
+
+.gov-list {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 4px 16px;
+}
+
+.gov-list-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.gov-list-item:last-child {
+  border-bottom: none;
+}
+
+.gov-list-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f4f4f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gov-list-item span {
+  flex: 1;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1c1c1e;
+}

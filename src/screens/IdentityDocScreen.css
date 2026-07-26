@@ -1,0 +1,136 @@
+.id-screen {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.id-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 16px;
+}
+
+.id-header h1 {
+  font-size: 19px;
+  font-weight: 800;
+  text-align: center;
+  flex: 1;
+}
+
+.id-tabs {
+  display: flex;
+  background: #ececec;
+  border-radius: 14px;
+  padding: 4px;
+  margin: 0 16px 16px;
+}
+
+.id-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #6b6b70;
+}
+
+.id-tab--active {
+  background: #fff;
+  color: #1c1c1e;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.id-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  min-height: 380px;
+}
+
+.id-empty span {
+  color: #c7c7cc;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.id-photo-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.id-photo {
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.id-saved-toast {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--kaspi-green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.id-remove-btn {
+  color: var(--kaspi-red);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.id-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 24px;
+}
+
+.id-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.id-btn--primary {
+  background: var(--kaspi-blue);
+  color: #fff;
+}
+
+.id-btn--secondary {
+  background: #fff;
+  color: var(--kaspi-blue);
+  border: 1.5px solid var(--kaspi-blue);
+}

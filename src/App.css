@@ -1,0 +1,11 @@
+.screen-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--kaspi-bg);
+  -webkit-overflow-scrolling: touch;
+}
+
+.screen-container::-webkit-scrollbar {
+  display: none;
+}
