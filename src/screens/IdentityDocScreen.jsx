@@ -55,7 +55,7 @@ export default function IdentityDocScreen({ onBack }) {
             <path d="M15 5L8 12L15 19" stroke="#1c1c1e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <h1>Удостоверение личности</h1>
+        <h1>Удостоверение личност</h1>
         <div style={{ width: 22 }} />
       </div>
 
