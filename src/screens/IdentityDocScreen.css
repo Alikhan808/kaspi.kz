@@ -1,139 +1,90 @@
-.id-screen {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
+:root {
+  --kaspi-blue: #0073f5;
+  --kaspi-bg-gray: #f2f2f6;
+  --kaspi-text-dark: #1c1c1e;
+  --kaspi-text-secondary: #8e8e93;
+  --kaspi-border-gray: #e5e5ea;
 }
 
+/* Главный контейнер экрана */
+.id-screen {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Прижимает кнопку к низу, а контент держит вверху */
+  padding: 12px 16px 24px 16px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--kaspi-text-dark);
+}
+
+/* Верхний блок с контентом */
+.id-main-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Шапка */
 .id-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 16px 16px;
+  height: 44px;
+  margin-bottom: 12px;
 }
 
 .id-header h1 {
-  font-size: 19px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--kaspi-text-dark);
+  margin: 0;
   text-align: center;
-  flex: 1;
 }
 
-.id-tabs {
-  display: flex;
-  background: #ececec;
-  border-radius: 14px;
+.back-btn {
+  background: transparent;
+  border: none;
   padding: 4px;
-  margin: 0 16px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Переключатель вкладок (Табы) */
+.id-tabs {
+  background-color: var(--kaspi-bg-gray);
+  border-radius: 12px;
+  padding: 3px;
+  display: flex;
+  margin-bottom: 24px;
 }
 
 .id-tab {
   flex: 1;
-  padding: 10px;
-  border-radius: 11px;
+  border: none;
+  background: transparent;
+  padding: 8px 0;
   font-size: 14px;
-  font-weight: 700;
-  color: #6b6b70;
+  font-weight: 500;
+  color: #6c6c70;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .id-tab--active {
-  background: #fff;
-  color: #1c1c1e;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.12);
 }
 
-.id-content {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 24px;
-  min-height: 380px;
-}
-
-.id-empty span {
-  color: #c7c7cc;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.id-photo-wrap {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-}
-
-.id-photo {
-  width: 100%;
-  max-height: 340px;
-  object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-}
-
-.id-saved-toast {
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--kaspi-green);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 20px;
-  white-space: nowrap;
-  animation: fadeInDown 0.3s ease;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -8px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-.id-remove-btn {
-  color: var(--kaspi-red);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.id-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px 16px 24px;
-}
-
-.id-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 16px;
-  border-radius: 16px;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.id-btn--primary {
-  background: var(--kaspi-blue);
-  color: #fff;
-}
-
-.id-btn--secondary {
-  background: #fff;
-  color: var(--kaspi-blue);
-  border: 1.5px solid var(--kaspi-blue);
-}
 /* Контейнер списка реквизитов */
 .id-requisites-list {
   display: flex;
@@ -192,4 +143,64 @@
   color: #34c759;
   font-weight: bold;
   font-size: 14px;
+}
+
+/* Документ (вкладка Документ) */
+.id-photo-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.id-photo {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.id-empty {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--kaspi-text-secondary);
+  font-size: 15px;
+}
+
+/* Нижний блок с кнопками */
+.id-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.id-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.id-btn:active {
+  opacity: 0.7;
+}
+
+.id-btn--primary {
+  background-color: var(--kaspi-blue);
+  color: #ffffff;
+  border: none;
+}
+
+.id-btn--secondary {
+  background-color: #ffffff;
+  color: var(--kaspi-blue);
+  border: 1px solid #d0e3ff;
 }
