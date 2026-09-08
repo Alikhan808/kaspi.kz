@@ -81,6 +81,9 @@
 }
 
 .gov-id-card-img {
+  .gov-id-card-img img {
+    width: 100%; height: 100%; object-fit: contain; border-radius: 12px;
+  }
   width: 64px;
   height: 64px;
   border-radius: 12px;
@@ -216,9 +219,7 @@
 }
 
 .gov-popular-icon img {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
+  width: 100%; height: 100%; object-fit: contain; border-radius: 12px; 
 }
 
 .gov-popular-text {
