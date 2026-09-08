@@ -1,32 +1,36 @@
 import React, { useState } from 'react'
 import './GovServicesScreen.css'
 
-const quickCards = ['Удостоверение личности', 'Паспорт Гражданина РК', 'Водительские права']
-
-const serviceList = [
-  { label: 'Переоформление автомобиля', isIdentity: false },
-  { label: 'Удостоверение личности', isIdentity: true },
-  { label: 'Паспорт Гражданина РК', isIdentity: false },
-  { label: 'Водительские права', isIdentity: false },
-  { label: 'Налоги', isIdentity: false },
-  { label: 'Здравоохранение', isIdentity: false },
+// Горизонтальная лента категорий
+const categories = [
+  { key: 'popular', label: 'Популярные', icon: '/icons/category-popular.svg' },
+  { key: 'certificates', label: 'Справки', icon: '/icons/category-certificates.svg' },
+  { key: 'auto', label: 'Авто', icon: '/icons/category-auto.svg' },
+  { key: 'housing', label: 'Жильё', icon: '/icons/category-housing.svg' },
+  { key: 'family', label: 'Семья', icon: '/icons/category-family.svg' },
 ]
 
-function ServiceIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M11 3C11 3 12 4 12 5.5V9H10.2C9.2 9 8.4 9.5 8 10.3L4 18.5C3.7 19.2 4.2 20 5 20H19C19.8 20 20.3 19.2 20 18.5L16 10.3C15.6 9.5 14.8 9 13.8 9H12V5.5C12 4 13 3 13 3"
-        fill="var(--kaspi-red)"
-      />
-      <circle cx="12" cy="3" r="1.4" fill="var(--kaspi-red)" />
-      <rect x="7" y="16.5" width="10" height="1.7" rx="0.85" fill="#fff" fillOpacity="0.85" />
-    </svg>
-  )
-}
+// Список "Популярные и новые"
+const popularServices = [
+  {
+    label: 'Выплата по беременности',
+    icon: '/icons/service-pregnancy.svg',
+    badge: 'NEW',
+  },
+  {
+    label: 'Стать самозанятым',
+    sub: 'Открыть счет и начать принимать оплату в Kaspi.kz',
+    icon: '/icons/service-selfemployed.svg',
+  },
+  {
+    label: 'Переоформление автомобиля',
+    icon: '/icons/service-car.svg',
+  },
+]
 
 export default function GovServicesScreen({ onBack, onOpenIdentityDoc }) {
   const [tab, setTab] = useState('all')
+  const [activeCategory, setActiveCategory] = useState('popular')
 
   return (
     <div className="gov-screen">
@@ -57,34 +61,60 @@ export default function GovServicesScreen({ onBack, onOpenIdentityDoc }) {
         <span>Поиск по Госуслугам</span>
       </div>
 
-      <div className="gov-quick-scroll">
-        {quickCards.map((c) => (
+      <div className="gov-id-card-wrap">
+        <button className="gov-id-card" onClick={onOpenIdentityDoc}>
+          <img src="/icons/id-card.svg" alt="Удостоверение личности" className="gov-id-card-img" />
+          <span>
+            Удостоверение
+            <br />
+            личности
+          </span>
+        </button>
+
+        <button className="gov-all-docs">
+          <span>Все документы</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M9 5L16 12L9 19" stroke="#8e8e93" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="gov-categories">
+        {categories.map((c) => (
           <button
-            key={c}
-            className="gov-quick-card"
-            onClick={c === 'Удостоверение личности' ? onOpenIdentityDoc : undefined}
+            key={c.key}
+            className={`gov-category ${activeCategory === c.key ? 'gov-category--active' : ''}`}
+            onClick={() => setActiveCategory(c.key)}
           >
-            {c}
+            <div className="gov-category-icon">
+              <img src={c.icon} alt={c.label} />
+            </div>
+            <span>{c.label}</span>
           </button>
         ))}
       </div>
 
-      <div className="gov-list">
-        {serviceList.map((item) => (
-          <button
-            key={item.label}
-            className="gov-list-item"
-            onClick={item.isIdentity ? onOpenIdentityDoc : undefined}
-          >
-            <div className="gov-list-icon">
-              <ServiceIcon />
-            </div>
-            <span>{item.label}</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M9 5L16 12L9 19" stroke="#c7c7cc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        ))}
+      <div className="gov-popular-section">
+        <h2>Популярные и новые</h2>
+        <div className="gov-popular-list">
+          {popularServices.map((item) => (
+            <button key={item.label} className="gov-popular-item">
+              <div className="gov-popular-icon">
+                <img src={item.icon} alt={item.label} />
+              </div>
+              <div className="gov-popular-text">
+                <div className="gov-popular-title-row">
+                  <span className="gov-popular-title">{item.label}</span>
+                  {item.badge && <span className="gov-badge">{item.badge}</span>}
+                </div>
+                {item.sub && <span className="gov-popular-sub">{item.sub}</span>}
+              </div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M9 5L16 12L9 19" stroke="#c7c7cc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
