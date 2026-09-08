@@ -35,11 +35,10 @@
   flex: 1;
   border-radius: 16px;
   padding: 0px;
-  height: 120px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
+  gap: 4px;
   position: relative;
   overflow: hidden;
 }
