@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px 16px;
+  padding: 16px 16px 16px;
 }
 
 .back-btn {
@@ -78,6 +78,7 @@
   width: 150px;
   min-height: 90px;
   background: #fff;
+  border: 1px solid #ececec;
   border-radius: 16px;
   padding: 14px;
   font-size: 15px;

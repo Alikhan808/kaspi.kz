@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PhoneFrame from './components/PhoneFrame.jsx'
-import StatusBar from './components/StatusBar.jsx'
 import HomeScreen from './screens/HomeScreen.jsx'
 import GovServicesScreen from './screens/GovServicesScreen.jsx'
 import IdentityDocScreen from './screens/IdentityDocScreen.jsx'
@@ -23,7 +22,6 @@ export default function App() {
 
   return (
     <PhoneFrame>
-      <StatusBar />
       <div className="screen-container">
         {screen === SCREENS.HOME && (
           <HomeScreen onOpenGovServices={goGovServices} />

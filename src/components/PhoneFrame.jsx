@@ -5,7 +5,6 @@ export default function PhoneFrame({ children }) {
   return (
     <div className="phone-outer">
       <div className="phone-frame">
-        <div className="phone-notch" />
         <div className="phone-screen">{children}</div>
         <div className="phone-home-indicator" />
       </div>

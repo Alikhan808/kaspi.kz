@@ -15,10 +15,12 @@ const serviceList = [
 function ServiceIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <rect x="4" y="4" width="16" height="16" rx="2" stroke="var(--kaspi-red)" strokeWidth="1.8" />
-      <path d="M8 9C8 9 9 8 12 8C15 8 16 9 16 9" stroke="var(--kaspi-red)" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M8 12.5C8 12.5 9 11.5 12 11.5C15 11.5 16 12.5 16 12.5" stroke="var(--kaspi-red)" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M8 16C8 16 9 15 12 15C15 15 16 16 16 16" stroke="var(--kaspi-red)" strokeWidth="1.6" strokeLinecap="round" />
+      <path
+        d="M11 3C11 3 12 4 12 5.5V9H10.2C9.2 9 8.4 9.5 8 10.3L4 18.5C3.7 19.2 4.2 20 5 20H19C19.8 20 20.3 19.2 20 18.5L16 10.3C15.6 9.5 14.8 9 13.8 9H12V5.5C12 4 13 3 13 3"
+        fill="var(--kaspi-red)"
+      />
+      <circle cx="12" cy="3" r="1.4" fill="var(--kaspi-red)" />
+      <rect x="7" y="16.5" width="10" height="1.7" rx="0.85" fill="#fff" fillOpacity="0.85" />
     </svg>
   )
 }

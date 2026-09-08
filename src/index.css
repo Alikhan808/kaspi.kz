@@ -6,15 +6,16 @@
 }
 
 :root {
-  --kaspi-red: #ff0000;
-  --kaspi-red-dark: #e60000;
-  --kaspi-bg: #f4f4f5;
+  --kaspi-red: #f14635;
+  --kaspi-red-dark: #d63a2b;
+  --kaspi-bg: #ffffff;
   --kaspi-card: #ffffff;
   --kaspi-text: #1c1c1e;
   --kaspi-text-secondary: #6b6b70;
   --kaspi-blue: #007aff;
   --kaspi-yellow: #ffcc00;
   --kaspi-green: #34c759;
+  --kaspi-magnum: #e6007e;
 }
 
 html, body {

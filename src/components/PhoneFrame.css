@@ -19,18 +19,6 @@
   flex-direction: column;
 }
 
-.phone-notch {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 28px;
-  background: #000;
-  border-radius: 0 0 18px 18px;
-  z-index: 50;
-}
-
 .phone-screen {
   flex: 1;
   background: var(--kaspi-bg);
@@ -76,9 +64,6 @@
     border-radius: 0;
   }
   .phone-caption {
-    display: none;
-  }
-  .phone-notch {
     display: none;
   }
 }

@@ -101,10 +101,9 @@ export default function IdentityDocScreen({ onBack }) {
       <div className="id-actions">
         <button className="id-btn id-btn--primary" onClick={() => fileInputRef.current?.click()}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="3" width="7" height="7" rx="1" stroke="#fff" strokeWidth="1.6" />
-            <rect x="14" y="3" width="7" height="7" rx="1" stroke="#fff" strokeWidth="1.6" />
-            <rect x="3" y="14" width="7" height="7" rx="1" stroke="#fff" strokeWidth="1.6" />
-            <rect x="14" y="14" width="7" height="7" rx="1" stroke="#fff" strokeWidth="1.6" />
+            <rect x="3" y="3" width="7" height="7" rx="1.5" fill="#fff" />
+            <rect x="14" y="3" width="7" height="7" rx="1.5" fill="#fff" />
+            <rect x="3" y="14" width="7" height="7" rx="1.5" fill="#fff" />
           </svg>
           Предъявить документ
         </button>
