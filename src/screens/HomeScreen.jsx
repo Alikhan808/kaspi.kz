@@ -149,9 +149,9 @@ export default function HomeScreen({ onOpenGovServices }) {
       </div>
 
       <div className="promo-row">
-  <div className="promo-card promo-card--furniture">
-    <img src="/banners/showitem.jpg" alt="Мебель" className="promo-photo" />
-  </div>
+        <div className="promo-card promo-card--furniture">
+          <img src="/banners/showitem.jpg" alt="Мебель" className="promo-photo" />
+        </div>
   
 
       <div className="grid-menu">
@@ -163,7 +163,7 @@ export default function HomeScreen({ onOpenGovServices }) {
         ))}
       </div>
 
-      <div className="section-divider" />
+      
 
       <div className="service-list">
         {services.map((s) => (
@@ -203,6 +203,5 @@ export default function HomeScreen({ onOpenGovServices }) {
       <div className="suggestions-section">
         <h3>Вас могут заинтересовать</h3>
       </div>
-    </div>
   )
 }
