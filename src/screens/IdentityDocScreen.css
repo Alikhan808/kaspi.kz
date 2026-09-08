@@ -134,37 +134,32 @@
   color: var(--kaspi-blue);
   border: 1.5px solid var(--kaspi-blue);
 }
-/* Список реквизитов */
+/* Контейнер списка реквизитов */
 .id-requisites-list {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding-top: 4px;
-
-  /* Фиксация вверху экрана */
-  position: fixed;
-  top: 0;
-  left: 0;
+  gap: 20px;
   width: 100%;
-  z-index: 1000; /* Гарантирует, что блок будет поверх остального контента */
-  background-color: #ffffff; /* Задайте фон, чтобы контент снизу не просвечивал */
 }
 
 .req-item {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .req-label {
   font-size: 13px;
-  color: #8e8e93;
-  margin-bottom: 4px;
+  color: var(--kaspi-text-secondary);
+  margin-bottom: 6px;
+  font-weight: 400;
 }
 
 .req-input-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .req-input {
@@ -174,24 +169,23 @@
   background: transparent;
   font-size: 16px;
   font-weight: 500;
-  color: #1c1c1e;
-  padding: 2px 0;
+  color: var(--kaspi-text-dark);
+  padding: 0;
   font-family: inherit;
-}
-
-.req-input:focus {
-  border-bottom: 1px solid #007aff;
 }
 
 .copy-btn {
   background: none;
   border: none;
-  padding: 4px;
-  margin-left: 8px;
+  padding: 2px 0 2px 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.copy-btn svg {
+  stroke: #c7c7cc;
 }
 
 .copied-toast {
