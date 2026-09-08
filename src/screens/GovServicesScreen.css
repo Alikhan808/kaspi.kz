@@ -1,6 +1,6 @@
 .gov-screen {
   min-height: 100%;
-  background: var(--kaspi-bg);
+  background: #f4f4f5;
 }
 
 .gov-header {
@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 16px 16px;
+  background: #f4f4f5;
 }
 
 .back-btn {
@@ -61,40 +62,135 @@
   font-weight: 500;
 }
 
-.gov-quick-scroll {
+/* Карточка "Удостоверение личности" + "Все документы" */
+.gov-id-card-wrap {
+  background: #fff;
+  border-radius: 20px;
+  margin: 0 16px 16px;
+  overflow: hidden;
+}
+
+.gov-id-card {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 18px 16px;
+  width: 100%;
+  text-align: left;
+}
+
+.gov-id-card-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.gov-id-card span {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1c1c1e;
+  line-height: 1.25;
+}
+
+.gov-all-docs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 18px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.gov-all-docs span {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--kaspi-blue);
+}
+
+/* Лента категорий */
+.gov-categories {
+  display: flex;
+  gap: 22px;
   overflow-x: auto;
-  padding: 0 16px 20px;
+  padding: 4px 16px 20px;
   scrollbar-width: none;
 }
 
-.gov-quick-scroll::-webkit-scrollbar {
+.gov-categories::-webkit-scrollbar {
   display: none;
 }
 
-.gov-quick-card {
+.gov-category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   flex-shrink: 0;
-  width: 150px;
-  min-height: 90px;
-  background: #fff;
-  border: 1px solid #ececec;
-  border-radius: 16px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  text-align: left;
-  line-height: 1.25;
-  color: #1c1c1e;
 }
 
-.gov-list {
+.gov-category-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.gov-category-icon img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.gov-category span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b6b70;
+  white-space: nowrap;
+}
+
+.gov-category--active span {
+  color: var(--kaspi-red);
+  font-weight: 700;
+  position: relative;
+}
+
+.gov-category--active span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: var(--kaspi-red);
+  border-radius: 2px;
+}
+
+/* Секция "Популярные и новые" */
+.gov-popular-section {
   background: #fff;
   border-radius: 20px 20px 0 0;
-  padding: 4px 16px;
+  padding: 20px 16px 8px;
+  min-height: 300px;
 }
 
-.gov-list-item {
+.gov-popular-section h2 {
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.gov-popular-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.gov-popular-item {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -103,11 +199,11 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-.gov-list-item:last-child {
+.gov-popular-item:last-child {
   border-bottom: none;
 }
 
-.gov-list-icon {
+.gov-popular-icon {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -116,12 +212,49 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
-.gov-list-item span {
+.gov-popular-icon img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.gov-popular-text {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   text-align: left;
+  min-width: 0;
+}
+
+.gov-popular-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gov-popular-title {
   font-size: 16px;
   font-weight: 600;
   color: #1c1c1e;
+}
+
+.gov-popular-sub {
+  font-size: 13px;
+  font-weight: 500;
+  color: #8e8e93;
+  line-height: 1.35;
+}
+
+.gov-badge {
+  background: var(--kaspi-red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 8px;
+  flex-shrink: 0;
 }
