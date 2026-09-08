@@ -46,6 +46,39 @@ export default function IdentityDocScreen({ onBack }) {
       console.error(e)
     }
   }
+   <script>
+    // Идентификаторы всех полей
+    const fields = ['fio', 'iin', 'birthdate', 'doc_number', 'issue_date', 'expiry_date'];
+
+    // Загрузка сохраненных данных при старте
+    document.addEventListener('DOMContentLoaded', () => {
+      fields.forEach(fieldId => {
+        const input = document.getElementById(fieldId);
+        const savedValue = localStorage.getItem('user_doc_' + fieldId);
+        
+        if (savedValue !== null) {
+          input.value = savedValue;
+        }
+
+        // Сохранение при вводе любого символа
+        input.addEventListener('input', (e) => {
+          localStorage.setItem('user_doc_' + fieldId, e.target.value);
+        });
+      });
+    });
+
+    // Функция для копирования текста при нажатии на иконку
+    function copyToClipboard(fieldId) {
+      const input = document.getElementById(fieldId);
+      if (input.value) {
+        navigator.clipboard.writeText(input.value).then(() => {
+          alert('Скопировано: ' + input.value);
+        }).catch(err => {
+          console.error('Ошибка копирования:', err);
+        });
+      }
+    }
+  </script>
 
   return (
     <div className="id-screen">
@@ -173,40 +206,6 @@ export default function IdentityDocScreen({ onBack }) {
       </button>
     </div>
   </div>
-
-  <script>
-    // Идентификаторы всех полей
-    const fields = ['fio', 'iin', 'birthdate', 'doc_number', 'issue_date', 'expiry_date'];
-
-    // Загрузка сохраненных данных при старте
-    document.addEventListener('DOMContentLoaded', () => {
-      fields.forEach(fieldId => {
-        const input = document.getElementById(fieldId);
-        const savedValue = localStorage.getItem('user_doc_' + fieldId);
-        
-        if (savedValue !== null) {
-          input.value = savedValue;
-        }
-
-        // Сохранение при вводе любого символа
-        input.addEventListener('input', (e) => {
-          localStorage.setItem('user_doc_' + fieldId, e.target.value);
-        });
-      });
-    });
-
-    // Функция для копирования текста при нажатии на иконку
-    function copyToClipboard(fieldId) {
-      const input = document.getElementById(fieldId);
-      if (input.value) {
-        navigator.clipboard.writeText(input.value).then(() => {
-          alert('Скопировано: ' + input.value);
-        }).catch(err => {
-          console.error('Ошибка копирования:', err);
-        });
-      }
-    }
-  </script>
           </div>
         )}
       </div>
