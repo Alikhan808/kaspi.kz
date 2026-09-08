@@ -6,95 +6,48 @@ const gridItems = [
   {
     label: 'Магазин',
     icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-        <path d="M7 2L5 6H19L17 2H7Z" fill="var(--kaspi-red)" />
-        <path
-          d="M4.5 7C4.5 6.72386 4.72386 6.5 5 6.5H19C19.2761 6.5 19.5 6.72386 19.5 7V19.5C19.5 20.0523 19.0523 20.5 18.5 20.5H5.5C4.94772 20.5 4.5 20.0523 4.5 19.5V7Z"
-          stroke="var(--kaspi-red)"
-          strokeWidth="1.6"
-        />
-        <path
-          d="M9 10.5C9 12.1569 10.3431 13.5 12 13.5C13.6569 13.5 15 12.1569 15 10.5"
-          stroke="var(--kaspi-red)"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-      </svg>
+       <img src="/icons/shop.png" alt="Магазин" />
     ),
   },
   {
     label: 'Мой Банк',
     icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="4.5" width="11" height="15" rx="2" fill="var(--kaspi-red)" />
-        <rect x="13.5" y="8" width="7.5" height="11.5" rx="2" fill="var(--kaspi-red)" fillOpacity="0.55" />
-        <rect x="6" y="8" width="5" height="1.6" rx="0.8" fill="#fff" />
-        <rect x="6" y="11.2" width="5" height="1.6" rx="0.8" fill="#fff" />
-        <rect x="6" y="14.4" width="3.2" height="1.6" rx="0.8" fill="#fff" />
-      </svg>
+      <img src="/icons/bank.png" alt="Мой банк" />
     ),
   },
   {
     label: 'Платежи',
     icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-        <path d="M5 2.5H16L19.5 6V21H7.5C6.11929 21 5 19.8807 5 18.5V2.5Z" fill="var(--kaspi-red)" />
-        <path d="M16 2.5V6H19.5L16 2.5Z" fill="#fff" fillOpacity="0.35" />
-        <rect x="8" y="9.5" width="8" height="1.6" rx="0.8" fill="#fff" />
-        <rect x="8" y="13" width="8" height="1.6" rx="0.8" fill="#fff" />
-        <rect x="8" y="16.5" width="4.5" height="1.6" rx="0.8" fill="#fff" />
-      </svg>
+     <img src="/icons/payments.png" alt="Платежи" />
     ),
   },
   {
     label: 'Переводы',
     icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-        <path d="M3.5 8.5H16.5L13 5" stroke="var(--kaspi-red)" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M3.5 8.5L7 12" stroke="var(--kaspi-red)" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M20.5 15.5H7.5L11 12" stroke="var(--kaspi-red)" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M20.5 15.5L17 19" stroke="var(--kaspi-red)" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      <img src="/icons/transfer.png" alt="Переводы" />
     ),
   },
   {
     label: 'Magnum',
-    icon: <MagnumIcon />,
+    icon:  <img src="/icons/magnum.png" alt="Магнум" />,
   },
   {
     label: 'Travel',
     icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-        <rect x="5" y="8" width="14" height="12.5" rx="2.5" fill="var(--kaspi-red)" />
-        <path d="M9 8V6C9 4.89543 9.89543 4 11 4H13C14.1046 4 15 4.89543 15 6V8" stroke="var(--kaspi-red)" strokeWidth="1.8" />
-        <rect x="7.5" y="11" width="2.4" height="6.5" rx="1.2" fill="#fff" fillOpacity="0.9" />
-        <rect x="14.1" y="11" width="2.4" height="6.5" rx="1.2" fill="#fff" fillOpacity="0.9" />
-      </svg>
+      <img src="/icons/travel.png" alt="Путишествия" />
     ),
   },
   {
     label: 'Госуслуги',
     isGov: true,
     icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M11 3C11 3 12 4 12 5.5V9H10.2C9.2 9 8.4 9.5 8 10.3L4 18.5C3.7 19.2 4.2 20 5 20H19C19.8 20 20.3 19.2 20 18.5L16 10.3C15.6 9.5 14.8 9 13.8 9H12V5.5C12 4 13 3 13 3"
-          fill="var(--kaspi-red)"
-        />
-        <circle cx="12" cy="3" r="1.4" fill="var(--kaspi-red)" />
-        <rect x="7" y="16.5" width="10" height="1.7" rx="0.85" fill="#fff" fillOpacity="0.85" />
-      </svg>
+      <img src="/icons/gov.png" alt="Госуслуги" />
     ),
   },
   {
     label: 'Объявления',
     icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-        <rect x="4.5" y="3.5" width="15" height="17" rx="2" fill="var(--kaspi-red)" />
-        <rect x="7.3" y="7.2" width="9.4" height="1.7" rx="0.85" fill="#fff" />
-        <rect x="7.3" y="11" width="9.4" height="1.7" rx="0.85" fill="#fff" />
-        <rect x="7.3" y="14.8" width="5.5" height="1.7" rx="0.85" fill="#fff" />
-      </svg>
+      <img src="/icons/job.png" alt="Объявления" />
     ),
   },
 ]
@@ -172,10 +125,10 @@ function HandPhoneIllustration() {
 }
 
 const services = [
-  { label: 'Рассрочка 0-0-12', bg: 'var(--kaspi-red)', content: '0·0·12', textColor: '#fff', fontSize: 11.5 },
-  { label: 'Kaspi Депозит', bg: 'var(--kaspi-yellow)', content: '₸', textColor: '#1c1c1e', fontSize: 20 },
-  { label: 'Кредит Наличными', bg: 'var(--kaspi-green)', content: '💳', textColor: '#fff', fontSize: 18 },
-  { label: 'Kaspi Red+', bg: 'var(--kaspi-red)', content: 'Red+', textColor: '#fff', fontSize: 12 },
+  { label: 'Рассрочка 0-0-12',  icon:  <img src="/icons/rasrochka.png" alt="рассрочка" /> },
+  { label: 'Kaspi Депозит',  icon:  <img src="/icons/depozit.png" alt="депозит" /> },
+  { label: 'Кредит Наличными',  icon:  <img src="/icons/kredit.png" alt="кредит" /> },
+  { label: 'Kaspi Red+',  icon:  <img src="/icons/kaspired.png" alt="каспиред" /> },
 ]
 
 export default function HomeScreen({ onOpenGovServices }) {
