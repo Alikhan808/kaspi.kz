@@ -51,9 +51,6 @@
 .promo-card--dark {
   background: linear-gradient(160deg, #26262a, #151517);
 }
-
-.promo-card-photo img {
-  width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
   
 
 .promo-text {
@@ -92,15 +89,8 @@
   color: #b8b8bc;
 }
 
-.promo-photo {
-  width: 90px;
-  height: auto;
-  max-height: 130px;
-  object-fit: contain;
-  flex-shrink: 0;
-  position: absolute;
-  right: -6px;
-  bottom: -4px;
+.promo-photo img{
+  width: 100%; height: 100%; object-fit: contain; border-radius: 12px;
 }
 
 .grid-menu {
