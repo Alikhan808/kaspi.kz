@@ -134,168 +134,60 @@
   color: var(--kaspi-blue);
   border: 1.5px solid var(--kaspi-blue);
 }
-<style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
+/* Список реквизитов */
+.id-requisites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: 4px;
+}
 
-    body {
-      background-color: #ffffff;
-      color: #1c1c1e;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
+.req-item {
+  display: flex;
+  flex-direction: column;
+}
 
-    .container {
-      width: 100%;
-      max-width: 430px;
-      padding: 16px 20px 30px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 100vh;
-    }
+.req-label {
+  font-size: 13px;
+  color: #8e8e93;
+  margin-bottom: 4px;
+}
 
-    /* Шапка */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding: 10px 0 20px 0;
-    }
+.req-input-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    .back-btn {
-      position: absolute;
-      left: 0;
-      background: none;
-      border: none;
-      font-size: 20px;
-      color: #000;
-      cursor: pointer;
-    }
+.req-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1c1c1e;
+  padding: 2px 0;
+  font-family: inherit;
+}
 
-    .title {
-      font-size: 18px;
-      font-weight: 700;
-      text-align: center;
-    }
+.req-input:focus {
+  border-bottom: 1px solid #007aff;
+}
 
-    /* Табы (Переключатель) */
-    .tab-container {
-      background-color: #f2f2f7;
-      border-radius: 10px;
-      padding: 2px;
-      display: flex;
-      margin-bottom: 24px;
-    }
+.copy-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  margin-left: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .tab {
-      flex: 1;
-      padding: 8px 0;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 500;
-      color: #6c6c70;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .tab.active {
-      background-color: #ffffff;
-      color: #000000;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-      font-weight: 600;
-    }
-
-    /* Поля формы */
-    .field-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .field-item {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .field-label {
-      font-size: 13px;
-      color: #8e8e93;
-      margin-bottom: 6px;
-    }
-
-    .input-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid transparent;
-    }
-
-    .field-input {
-      width: 100%;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      font-weight: 500;
-      color: #1c1c1e;
-      background: transparent;
-      padding: 2px 0;
-    }
-
-    .field-input:focus {
-      border-bottom: 1px solid #007aff;
-    }
-
-    .copy-icon {
-      color: #c7c7cc;
-      cursor: pointer;
-      margin-left: 8px;
-      display: flex;
-      align-items: center;
-    }
-
-    .copy-icon svg {
-      width: 18px;
-      height: 18px;
-      stroke: #a9a9b0;
-    }
-
-    /* Кнопка снизу */
-    .footer {
-      margin-top: 30px;
-    }
-
-    .submit-btn {
-      width: 100%;
-      background-color: #ffffff;
-      border: 1px solid #007aff;
-      color: #007aff;
-      border-radius: 12px;
-      padding: 14px 0;
-      font-size: 16px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .submit-btn:active {
-      background-color: #f0f8ff;
-    }
-
-    .submit-btn svg {
-      width: 20px;
-      height: 20px;
-      stroke: #007aff;
-    }
-  </style>
+.copied-toast {
+  color: #34c759;
+  font-weight: bold;
+  font-size: 14px;
+}
