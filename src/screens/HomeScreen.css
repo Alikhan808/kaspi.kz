@@ -34,12 +34,12 @@
 .promo-card {
   flex: 1;
   border-radius: 16px;
-  padding: 14px;
-  height: 156px;
+  padding: 0px;
+  height: 120px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 4px;
+  gap: 20px;
   position: relative;
   overflow: hidden;
 }
