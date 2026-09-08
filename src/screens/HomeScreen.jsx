@@ -52,14 +52,7 @@ const gridItems = [
   },
 ]
 
-function MagnumIcon() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-      <rect x="2" y="2" width="20" height="20" rx="6" fill="var(--kaspi-magnum)" />
-      <path d="M6.5 16.5V8L12 12.5L17.5 8V16.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
+
 
 // Иллюстрация кресла для промо-баннера "Мебель"
 function ArmchairIllustration() {
@@ -156,35 +149,10 @@ export default function HomeScreen({ onOpenGovServices }) {
       </div>
 
       <div className="promo-row">
-        <div className="promo-card promo-card--furniture">
-          <div className="promo-text">
-            <span className="promo-title">Мебель</span>
-            <span className="promo-badge">0·0·12</span>
-            <span className="promo-sub">
-              с 23 по 29 мая
-              <br />
-              на Kaspi.kz
-              <br />и с Kaspi QR
-            </span>
-          </div>
-          <ArmchairIllustration />
-        </div>
-        <div className="promo-card promo-card--dark">
-          <div className="promo-text">
-            <span className="promo-title">
-              ВСЕ
-              <br />В РАССРОЧКУ
-            </span>
-            <span className="promo-badge">0·0·12</span>
-            <span className="promo-sub promo-sub--light">
-              с 30 мая по 12 июня
-              <br />
-              на Kaspi.kz и с Kaspi QR
-            </span>
-          </div>
-          <PhoneWatchIllustration />
-        </div>
-      </div>
+  <div className="promo-card promo-card--furniture">
+    <img src="/banners/showitem.jpg" alt="Мебель" className="promo-photo" />
+  </div>
+  
 
       <div className="grid-menu">
         {gridItems.map((item) => (
