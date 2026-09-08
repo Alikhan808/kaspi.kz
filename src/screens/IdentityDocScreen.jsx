@@ -272,18 +272,11 @@ export default function IdentityDocScreen({ onBack }) {
         {tab === 'document' ? (
           <>
             <button className="id-btn id-btn--primary" onClick={() => fileInputRef.current?.click()}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <rect x="3" y="3" width="7" height="7" rx="1.5" fill="#fff" />
-                <rect x="14" y="3" width="7" height="7" rx="1.5" fill="#fff" />
-                <rect x="3" y="14" width="7" height="7" rx="1.5" fill="#fff" />
-              </svg>
+              <img src="/icons/documentt.png" alt="предъявить" />
               Предъявить документ
             </button>
             <button className="id-btn id-btn--secondary" onClick={() => fileInputRef.current?.click()}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="var(--kaspi-blue)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M4 16V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V16" stroke="var(--kaspi-blue)" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
+              <img src="/icons/senddocument.png" alt="отправить" />
               {photo ? 'Заменить документ' : 'Отправить документ'}
             </button>
           </>
