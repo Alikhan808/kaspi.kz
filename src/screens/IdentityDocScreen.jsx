@@ -14,7 +14,7 @@ const INITIAL_REQUISITES = {
 }
 
 export default function IdentityDocScreen({ onBack }) {
-  const [tab, setTab] = useState('requisites') // По умолчанию открываем Реквизиты, как на скрине
+  const [tab, setTab] = useState('photo') // По умолчанию открываем Реквизиты, как на скрине
   const [photo, setPhoto] = useState(null)
   const [requisites, setRequisites] = useState(INITIAL_REQUISITES)
   const [copiedField, setCopiedField] = useState(null)
