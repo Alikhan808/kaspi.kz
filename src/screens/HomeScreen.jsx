@@ -69,7 +69,7 @@ const services = [
 export default function HomeScreen({ onOpenGovServices }) {
   return (
     <div className="home-screen">
-      {/* Шапка поиска */}
+      
       <div className="search-row">
         <div className="search-input">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -91,14 +91,14 @@ export default function HomeScreen({ onOpenGovServices }) {
         </svg>
       </div>
 
-      {/* Баннеры */}
+      
       <div className="promo-row">
         <div className="promo-card promo-card--furniture">
           <img src="/banners/showitem.jpg" alt="Мебель" className="promo-photo" />
         </div>
-      </div> {/* <-- ЗДЕСЬ БЫЛ ЗАКРЫТ promo-row */}
+      </div> 
 
-      {/* Сетка иконок */}
+      
       <div className="grid-menu">
         {gridItems.map((item) => (
           <button key={item.label} className="grid-item" onClick={item.isGov ? onOpenGovServices : undefined}>
@@ -108,7 +108,7 @@ export default function HomeScreen({ onOpenGovServices }) {
         ))}
       </div>
 
-      {/* Список сервисов */}
+      
       <div className="service-list">
         {services.map((s) => (
           <button key={s.label} className="service-item">
@@ -120,7 +120,7 @@ export default function HomeScreen({ onOpenGovServices }) {
         ))}
       </div>
 
-      {/* Красный баннер */}
+      
       <div className="banner-red">
         <div className="banner-text">
           <div className="banner-logo-row">
@@ -145,10 +145,10 @@ export default function HomeScreen({ onOpenGovServices }) {
         <HandPhoneIllustration />
       </div>
 
-      {/* Секция "Вас могут заинтересовать" */}
+      
       <div className="suggestions-section">
         <h3>Вас могут заинтересовать</h3>
       </div>
-    </div> {/* <-- ЗДЕСЬ ЗАКРЫВАЕТСЯ home-screen */}
+    </div> 
   )
 }
