@@ -55,7 +55,7 @@ export default function IdentityDocScreen({ onBack }) {
             <path d="M15 5L8 12L15 19" stroke="#1c1c1e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <h1>Удостоверение личност</h1>
+        <h1>Удостоверение личности</h1>
         <div style={{ width: 22 }} />
       </div>
 
@@ -73,10 +73,6 @@ export default function IdentityDocScreen({ onBack }) {
           photo ? (
             <div className="id-photo-wrap">
               <img src={photo} alt="Удостоверение личности" className="id-photo" />
-              {justSaved && <div className="id-saved-toast">Сохранено на устройстве</div>}
-              <button className="id-remove-btn" onClick={handleRemove}>
-                Удалить фото
-              </button>
             </div>
           ) : (
             <div className="id-empty">
@@ -85,7 +81,132 @@ export default function IdentityDocScreen({ onBack }) {
           )
         ) : (
           <div className="id-empty">
-            <span>Реквизиты не добавлены</span>
+            <div class="container">
+    <div>
+      <!-- Шапка -->
+      <div class="header">
+        <button class="back-btn">&#10094;</button>
+        <div class="title">Удостоверение личности</div>
+      </div>
+
+      <!-- Переключатель вкладка -->
+      <div class="tab-container">
+        <div class="tab">Документ</div>
+        <div class="tab active">Реквизиты</div>
+      </div>
+
+      <!-- Список полей для ввода -->
+      <div class="field-list">
+        
+        <div class="field-item">
+          <label class="field-label">ФИО</label>
+          <div class="input-wrapper">
+            <input type="text" id="fio" class="field-input" placeholder="Иванов Иван Иванович">
+            <span class="copy-icon" onclick="copyToClipboard('fio')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">ИИН</label>
+          <div class="input-wrapper">
+            <input type="text" id="iin" class="field-input" placeholder="900315300123">
+            <span class="copy-icon" onclick="copyToClipboard('iin')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">Дата рождения</label>
+          <div class="input-wrapper">
+            <input type="text" id="birthdate" class="field-input" placeholder="15.03.1990">
+            <span class="copy-icon" onclick="copyToClipboard('birthdate')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">Номер документа</label>
+          <div class="input-wrapper">
+            <input type="text" id="doc_number" class="field-input" placeholder="123456789012">
+            <span class="copy-icon" onclick="copyToClipboard('doc_number')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">Дата выдачи</label>
+          <div class="input-wrapper">
+            <input type="text" id="issue_date" class="field-input" placeholder="15.03.2020">
+            <span class="copy-icon" onclick="copyToClipboard('issue_date')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">Срок действия</label>
+          <div class="input-wrapper">
+            <input type="text" id="expiry_date" class="field-input" placeholder="Бессрочно">
+            <span class="copy-icon" onclick="copyToClipboard('expiry_date')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Кнопка "Отправить реквизиты" -->
+    <div class="footer">
+      <button class="submit-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+          <polyline points="16 6 12 2 8 6"></polyline>
+          <line x1="12" y1="2" x2="12" y2="15"></line>
+        </svg>
+        Отправить реквизиты
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Идентификаторы всех полей
+    const fields = ['fio', 'iin', 'birthdate', 'doc_number', 'issue_date', 'expiry_date'];
+
+    // Загрузка сохраненных данных при старте
+    document.addEventListener('DOMContentLoaded', () => {
+      fields.forEach(fieldId => {
+        const input = document.getElementById(fieldId);
+        const savedValue = localStorage.getItem('user_doc_' + fieldId);
+        
+        if (savedValue !== null) {
+          input.value = savedValue;
+        }
+
+        // Сохранение при вводе любого символа
+        input.addEventListener('input', (e) => {
+          localStorage.setItem('user_doc_' + fieldId, e.target.value);
+        });
+      });
+    });
+
+    // Функция для копирования текста при нажатии на иконку
+    function copyToClipboard(fieldId) {
+      const input = document.getElementById(fieldId);
+      if (input.value) {
+        navigator.clipboard.writeText(input.value).then(() => {
+          alert('Скопировано: ' + input.value);
+        }).catch(err => {
+          console.error('Ошибка копирования:', err);
+        });
+      }
+    }
+  </script>
           </div>
         )}
       </div>
