@@ -140,6 +140,14 @@
   flex-direction: column;
   gap: 18px;
   padding-top: 4px;
+
+  /* Фиксация вверху экрана */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Гарантирует, что блок будет поверх остального контента */
+  background-color: #ffffff; /* Задайте фон, чтобы контент снизу не просвечивал */
 }
 
 .req-item {
