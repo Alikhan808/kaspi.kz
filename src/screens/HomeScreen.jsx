@@ -94,7 +94,7 @@ export default function HomeScreen({ onOpenGovServices }) {
       
       <div className="promo-row">
         <div className="promo-card promo-card--furniture">
-          <img src="/banners/showitem.jpg" alt="Мебель" className="promo-photo" />
+          <img src="/icons/showitem.jpg" alt="Мебель" className="promo-photo" />
         </div>
       </div> 
 
