@@ -1,100 +1,42 @@
 import React from 'react'
 import './HomeScreen.css'
 
-// Иконки выполнены в заполненном (filled) стиле — максимально близко к оригинальному приложению Kaspi.kz
+// Иконки выполнены в заполненном (filled) стиле
 const gridItems = [
   {
     label: 'Магазин',
-    icon: (
-       <img src="/icons/shop.png" alt="Магазин" />
-    ),
+    icon: <img src="/icons/shop.png" alt="Магазин" />,
   },
   {
     label: 'Мой Банк',
-    icon: (
-      <img src="/icons/bank.png" alt="Мой банк" />
-    ),
+    icon: <img src="/icons/bank.png" alt="Мой банк" />,
   },
   {
     label: 'Платежи',
-    icon: (
-     <img src="/icons/payments.png" alt="Платежи" />
-    ),
+    icon: <img src="/icons/payments.png" alt="Платежи" />,
   },
   {
     label: 'Переводы',
-    icon: (
-      <img src="/icons/transfer.png" alt="Переводы" />
-    ),
+    icon: <img src="/icons/transfer.png" alt="Переводы" />,
   },
   {
     label: 'Magnum',
-    icon:  <img src="/icons/magnum.png" alt="Магнум" />,
+    icon: <img src="/icons/magnum.png" alt="Магнум" />,
   },
   {
     label: 'Travel',
-    icon: (
-      <img src="/icons/travel.png" alt="Путишествия" />
-    ),
+    icon: <img src="/icons/travel.png" alt="Путешествия" />,
   },
   {
     label: 'Госуслуги',
     isGov: true,
-    icon: (
-      <img src="/icons/gov.png" alt="Госуслуги" />
-    ),
+    icon: <img src="/icons/gov.png" alt="Госуслуги" />,
   },
   {
     label: 'Объявления',
-    icon: (
-      <img src="/icons/job.png" alt="Объявления" />
-    ),
+    icon: <img src="/icons/job.png" alt="Объявления" />,
   },
 ]
-
-
-
-// Иллюстрация кресла для промо-баннера "Мебель"
-function ArmchairIllustration() {
-  return (
-    <svg viewBox="0 0 160 130" className="promo-illustration">
-      <ellipse cx="80" cy="118" rx="70" ry="8" fill="#d8c9ab" opacity="0.5" />
-      <rect x="10" y="60" width="14" height="55" rx="4" fill="#8a6a45" />
-      <ellipse cx="17" cy="58" rx="10" ry="9" fill="#c9915f" />
-      <path d="M25 45C25 38 32 33 42 33H108C118 33 125 38 125 45V75C125 82 119 88 111 88H39C31 88 25 82 25 75V45Z" fill="#3d5a80" />
-      <path d="M25 45C25 38 32 33 42 33H50V88H39C31 88 25 82 25 75V45Z" fill="#33506f" />
-      <rect x="30" y="70" width="100" height="30" rx="8" fill="#2b4560" />
-      <rect x="34" y="74" width="92" height="22" rx="6" fill="#3d5a80" />
-      <circle cx="95" cy="60" r="9" fill="#e8ddc7" />
-      <rect x="128" y="55" width="18" height="45" rx="3" fill="#a5764a" />
-      <ellipse cx="137" cy="53" rx="11" ry="4" fill="#c9915f" />
-    </svg>
-  )
-}
-
-// Иллюстрация телефона + часов для промо-баннера "Всё в рассрочку"
-function PhoneWatchIllustration() {
-  return (
-    <svg viewBox="0 0 160 130" className="promo-illustration">
-      <rect x="18" y="10" width="52" height="100" rx="10" fill="#1c1c1e" />
-      <rect x="22" y="16" width="44" height="88" rx="4" fill="url(#phoneGrad)" />
-      <defs>
-        <linearGradient id="phoneGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ff5f6d" />
-          <stop offset="100%" stopColor="#a8195e" />
-        </linearGradient>
-      </defs>
-      <circle cx="44" cy="10" r="2" fill="#3a3a3c" />
-      <circle cx="108" cy="55" r="26" fill="#2b2b2f" />
-      <circle cx="108" cy="55" r="20" fill="#3a3a3c" />
-      <circle cx="108" cy="55" r="17" fill="#f4ede0" />
-      <line x1="108" y1="55" x2="108" y2="43" stroke="#1c1c1e" strokeWidth="2" strokeLinecap="round" />
-      <line x1="108" y1="55" x2="116" y2="58" stroke="#1c1c1e" strokeWidth="2" strokeLinecap="round" />
-      <rect x="98" y="79" width="20" height="34" rx="6" fill="#6b4a2f" />
-      <rect x="83" y="95" width="50" height="10" rx="5" fill="#2b2b2f" />
-    </svg>
-  )
-}
 
 // Иллюстрация руки со смартфоном для нижнего красного баннера
 function HandPhoneIllustration() {
@@ -118,15 +60,16 @@ function HandPhoneIllustration() {
 }
 
 const services = [
-  { label: 'Рассрочка 0-0-12',  icon:  <img src="/icons/rasrochka.png" alt="рассрочка" /> },
-  { label: 'Kaspi Депозит',  icon:  <img src="/icons/depozit.png" alt="депозит" /> },
-  { label: 'Кредит Наличными',  icon:  <img src="/icons/kredit.png" alt="кредит" /> },
-  { label: 'Kaspi Red+',  icon:  <img src="/icons/kaspired.png" alt="каспиред" /> },
+  { label: 'Рассрочка 0-0-12', icon: <img src="/icons/rasrochka.png" alt="рассрочка" /> },
+  { label: 'Kaspi Депозит', icon: <img src="/icons/depozit.png" alt="депозит" /> },
+  { label: 'Кредит Наличными', icon: <img src="/icons/kredit.png" alt="кредит" /> },
+  { label: 'Kaspi Red+', icon: <img src="/icons/kaspired.png" alt="каспиред" /> },
 ]
 
 export default function HomeScreen({ onOpenGovServices }) {
   return (
     <div className="home-screen">
+      {/* Шапка поиска */}
       <div className="search-row">
         <div className="search-input">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -148,12 +91,14 @@ export default function HomeScreen({ onOpenGovServices }) {
         </svg>
       </div>
 
+      {/* Баннеры */}
       <div className="promo-row">
         <div className="promo-card promo-card--furniture">
           <img src="/banners/showitem.jpg" alt="Мебель" className="promo-photo" />
         </div>
-  
+      </div> {/* <-- ЗДЕСЬ БЫЛ ЗАКРЫТ promo-row */}
 
+      {/* Сетка иконок */}
       <div className="grid-menu">
         {gridItems.map((item) => (
           <button key={item.label} className="grid-item" onClick={item.isGov ? onOpenGovServices : undefined}>
@@ -163,19 +108,19 @@ export default function HomeScreen({ onOpenGovServices }) {
         ))}
       </div>
 
-      
-
+      {/* Список сервисов */}
       <div className="service-list">
         {services.map((s) => (
           <button key={s.label} className="service-item">
-            <div className="service-badge" style={{ background: s.bg, color: s.textColor, fontSize: s.fontSize }}>
-              {s.content}
+            <div className="service-badge">
+              {s.icon} {/* <-- ИСПРАВЛЕНО: выводим s.icon вместо несуществующих s.content */}
             </div>
             <span>{s.label}</span>
           </button>
         ))}
       </div>
 
+      {/* Красный баннер */}
       <div className="banner-red">
         <div className="banner-text">
           <div className="banner-logo-row">
@@ -200,8 +145,10 @@ export default function HomeScreen({ onOpenGovServices }) {
         <HandPhoneIllustration />
       </div>
 
+      {/* Секция "Вас могут заинтересовать" */}
       <div className="suggestions-section">
         <h3>Вас могут заинтересовать</h3>
       </div>
+    </div> {/* <-- ЗДЕСЬ ЗАКРЫВАЕТСЯ home-screen */}
   )
 }
