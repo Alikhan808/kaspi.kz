@@ -116,6 +116,7 @@
 }
 
 .grid-icon {
+  .grid-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
   width: 52px;
   height: 52px;
   display: flex;
