@@ -273,11 +273,10 @@ export default function IdentityDocScreen({ onBack }) {
           <>
             <button className="id-btn id-btn--primary" onClick={() => fileInputRef.current?.click()}>
               <img src="/icons/documentt.png" alt="предъявить" />
-              Предъявить документ
             </button>
             <button className="id-btn id-btn--secondary" onClick={() => fileInputRef.current?.click()}>
               <img src="/icons/senddocument.png" alt="отправить" />
-              {photo ? 'Заменить документ' : 'Отправить документ'}
+              {photo ? 'Отправить документ'}
             </button>
           </>
         ) : (
