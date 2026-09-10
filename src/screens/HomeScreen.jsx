@@ -113,7 +113,7 @@ export default function HomeScreen({ onOpenGovServices }) {
         {services.map((s) => (
           <button key={s.label} className="service-item">
             <div className="service-badge">
-              {s.icon} {/* <-- ИСПРАВЛЕНО: выводим s.icon вместо несуществующих s.content */}
+              {s.icon} 
             </div>
             <span>{s.label}</span>
           </button>
