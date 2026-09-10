@@ -103,11 +103,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
 }
 
 .grid-icon {
-  .grid-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
+  .grid-icon img { width: 57px; height: 100%; object-fit: contain; border-radius: 12px; }
   width: 52px;
   height: 52px;
   display: flex;
