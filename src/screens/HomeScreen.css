@@ -103,12 +103,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 0px
 }
 
 .grid-icon {
   .grid-icon img { width: 57px; height: 100%; object-fit: contain; border-radius: 12px; }
-  width: 52px;
+  width: 56px;
   height: 52px;
   display: flex;
   align-items: center;
