@@ -108,8 +108,8 @@
 
 .grid-icon {
   .grid-icon img { width: 44px; height: 100%; object-fit: contain; border-radius: 12px; }
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
