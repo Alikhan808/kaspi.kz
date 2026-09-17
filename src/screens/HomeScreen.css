@@ -34,8 +34,7 @@
 .promo-card {
   flex: 1;
   border-radius: 16px;
-  padding: 14px;
-  height: 156px;
+  padding: 0px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -51,10 +50,7 @@
 .promo-card--dark {
   background: linear-gradient(160deg, #26262a, #151517);
 }
-
-.promo-card--dark .promo-title {
-  color: #fff;
-}
+  
 
 .promo-text {
   display: flex;
@@ -92,13 +88,8 @@
   color: #b8b8bc;
 }
 
-.promo-illustration {
-  width: 78px;
-  height: auto;
-  flex-shrink: 0;
-  position: absolute;
-  right: -10px;
-  bottom: -6px;
+.promo-photo img{
+  width: 100%; height: 100%; object-fit: contain; border-radius: 12px;
 }
 
 .grid-menu {
@@ -112,12 +103,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 0px
 }
 
 .grid-icon {
-  .grid-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
-  width: 52px;
+  .grid-icon img { width: 57px; height: 100%; object-fit: contain; border-radius: 12px; }
+  width: 56px;
   height: 52px;
   display: flex;
   align-items: center;

@@ -81,8 +81,11 @@
 }
 
 .gov-id-card-img {
-  width: 64px;
-  height: 64px;
+  .gov-id-card-img img {
+    width: 100%; height: 100%; object-fit: contain; border-radius: 12px;
+  }
+  width: 85px;
+  height: 55px;
   border-radius: 12px;
   object-fit: cover;
 }
@@ -142,9 +145,7 @@
 }
 
 .gov-category-icon img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
+  width: 100%; height: 100%; object-fit: contain; border-radius: 12px;
 }
 
 .gov-category span {
@@ -216,9 +217,7 @@
 }
 
 .gov-popular-icon img {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
+  width: 100%; height: 100%; object-fit: contain; border-radius: 12px; 
 }
 
 .gov-popular-text {

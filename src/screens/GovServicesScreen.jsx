@@ -3,28 +3,28 @@ import './GovServicesScreen.css'
 
 // Горизонтальная лента категорий
 const categories = [
-  { key: 'popular', label: 'Популярные', icon: '/icons/category-popular.svg' },
-  { key: 'certificates', label: 'Справки', icon: '/icons/category-certificates.svg' },
-  { key: 'auto', label: 'Авто', icon: '/icons/category-auto.svg' },
-  { key: 'housing', label: 'Жильё', icon: '/icons/category-housing.svg' },
-  { key: 'family', label: 'Семья', icon: '/icons/category-family.svg' },
+  { key: 'popular', label: 'Популярные', icon: '/icons/syren.png' },
+  { key: 'certificates', label: 'Справки', icon: '/icons/doc.png' },
+  { key: 'auto', label: 'Авто', icon: '/icons/car.png' },
+  { key: 'housing', label: 'Жильё', icon: '/icons/house.png' },
+  { key: 'family', label: 'Семья', icon: '/icons/house.png' },
 ]
 
 // Список "Популярные и новые"
 const popularServices = [
   {
     label: 'Выплата по беременности',
-    icon: '/icons/service-pregnancy.svg',
+    icon: '/icons/kid.png',
     badge: 'NEW',
   },
   {
     label: 'Стать самозанятым',
     sub: 'Открыть счет и начать принимать оплату в Kaspi.kz',
-    icon: '/icons/service-selfemployed.svg',
+    icon: '/icons/pers.png',
   },
   {
     label: 'Переоформление автомобиля',
-    icon: '/icons/service-car.svg',
+    icon: '/icons/car.png',
   },
 ]
 
@@ -63,7 +63,7 @@ export default function GovServicesScreen({ onBack, onOpenIdentityDoc }) {
 
       <div className="gov-id-card-wrap">
         <button className="gov-id-card" onClick={onOpenIdentityDoc}>
-          <img src="/icons/id-card.svg" alt="Удостоверение личности" className="gov-id-card-img" />
+          <img src="/icons/udos.png" alt="Удостоверение личности" className="gov-id-card-img" />
           <span>
             Удостоверение
             <br />
