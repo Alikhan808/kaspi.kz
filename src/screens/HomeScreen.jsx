@@ -21,7 +21,7 @@ const gridItems = [
   },
   {
     label: 'Magnum',
-    icon: <img src="/icons/magnum.jpg" alt="Магнум" className="magnum_icon" />,
+    icon: <img src="/icons/magnum.png" alt="Магнум" className="magnum_icon" />,
   },
   {
     label: 'Travel',
