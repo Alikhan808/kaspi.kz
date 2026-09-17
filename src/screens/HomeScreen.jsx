@@ -5,7 +5,7 @@ import './HomeScreen.css'
 const gridItems = [
   {
     label: 'Магазин',
-    icon: <img src="/icons/shop.png" alt="Магазин" />,
+    icon: <img src="/icons/shop.avif" alt="Магазин" />,
   },
   {
     label: 'Мой Банк',
