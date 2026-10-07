@@ -10,251 +10,380 @@ const INITIAL_REQUISITES = {
   birthdate: '',
   docNumber: '',
   issueDate: '',
-  expiryDate: ''
+  expiryDate: '',
+}
+
+const FIELDS = [
+  ['fio', 'ФИО'],
+  ['iin', 'ИИН'],
+  ['birthdate', 'Дата рождения'],
+  ['docNumber', 'Номер документа'],
+  ['issueDate', 'Дата выдачи'],
+  ['expiryDate', 'Срок действия'],
+]
+
+function ShareIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+      <path d="M12 16V2M7 7l5-5 5 5" />
+    </svg>
+  )
+}
+
+function CopyIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      aria-hidden="true"
+    >
+      <rect x="9" y="9" width="12" height="12" rx="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  )
+}
+
+// Декоративный рисунок: не содержит данных документа.
+function DemoQrCode() {
+  const size = 37
+  const cells = []
+  const origins = [
+    [0, 0],
+    [size - 7, 0],
+    [0, size - 7],
+  ]
+
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const finder = origins.find(
+        ([ox, oy]) =>
+          x >= ox - 1 &&
+          x <= ox + 7 &&
+          y >= oy - 1 &&
+          y <= oy + 7,
+      )
+
+      let filled
+
+      if (finder) {
+        const dx = x - finder[0]
+        const dy = y - finder[1]
+
+        filled =
+          dx >= 0 &&
+          dx < 7 &&
+          dy >= 0 &&
+          dy < 7 &&
+          (dx === 0 ||
+            dx === 6 ||
+            dy === 0 ||
+            dy === 6 ||
+            (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4))
+      } else {
+        filled = (x * 17 + y * 31 + x * y * 7) % 19 < 9
+      }
+
+      if (filled) {
+        cells.push(
+          <rect
+            key={`${x}-${y}`}
+            x={x + 2}
+            y={y + 2}
+            width="1"
+            height="1"
+          />,
+        )
+      }
+    }
+  }
+
+  return (
+    <svg
+      className="id-demo-qr"
+      viewBox="0 0 41 41"
+      role="img"
+      aria-label="Демонстрационный QR-код"
+      shapeRendering="crispEdges"
+    >
+      {cells}
+    </svg>
+  )
 }
 
 export default function IdentityDocScreen({ onBack }) {
-  const [tab, setTab] = useState('document') // По умолчанию открываем Реквизиты, как на скрине
+  const [tab, setTab] = useState('document')
   const [photo, setPhoto] = useState(null)
   const [requisites, setRequisites] = useState(INITIAL_REQUISITES)
   const [copiedField, setCopiedField] = useState(null)
+  const [presenting, setPresenting] = useState(false)
+  const [presentationCode, setPresentationCode] = useState('')
+
   const fileInputRef = useRef(null)
+  const closeButtonRef = useRef(null)
+  const presentButtonRef = useRef(null)
+  const copyTimerRef = useRef(null)
 
   useEffect(() => {
     try {
       const savedPhoto = localStorage.getItem(PHOTO_STORAGE_KEY)
       if (savedPhoto) setPhoto(savedPhoto)
 
-      const savedReqs = localStorage.getItem(REQUISITES_STORAGE_KEY)
-      if (savedReqs) {
-        setRequisites(JSON.parse(savedReqs))
+      const saved = JSON.parse(
+        localStorage.getItem(REQUISITES_STORAGE_KEY) || 'null',
+      )
+
+      if (saved && typeof saved === 'object') {
+        const restored = { ...INITIAL_REQUISITES }
+
+        for (const [key] of FIELDS) {
+          if (typeof saved[key] === 'string') {
+            restored[key] = saved[key]
+          }
+        }
+
+        setRequisites(restored)
       }
-    } catch (e) {
-      console.error('Ошибка чтения из localStorage', e)
+    } catch (error) {
+      console.error('Ошибка чтения сохранённых данных:', error)
     }
+
+    return () => clearTimeout(copyTimerRef.current)
   }, [])
 
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0]
+  useEffect(() => {
+    if (!presenting) return
+
+    const trigger = presentButtonRef.current
+    const scroller = trigger?.closest('.screen-container')
+    const previousOverflow = scroller?.style.overflowY
+
+    if (scroller) scroller.style.overflowY = 'hidden'
+    closeButtonRef.current?.focus()
+
+    return () => {
+      if (scroller) scroller.style.overflowY = previousOverflow
+      trigger?.focus()
+    }
+  }, [presenting])
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+
     if (!file) return
 
+    if (!file.type.startsWith('image/')) {
+      alert('Выберите изображение.')
+      return
+    }
+
     const reader = new FileReader()
+
     reader.onload = () => {
       const dataUrl = reader.result
+      if (typeof dataUrl !== 'string') return
+
       setPhoto(dataUrl)
+
       try {
         localStorage.setItem(PHOTO_STORAGE_KEY, dataUrl)
-      } catch (err) {
-        console.error('Ошибка сохранения фото в localStorage', err)
+      } catch {
+        alert(
+          'Фото открыто, но сохранить его не удалось. Попробуйте изображение меньшего размера.',
+        )
       }
     }
+
+    reader.onerror = () => alert('Не удалось прочитать изображение.')
     reader.readAsDataURL(file)
   }
 
   const handleRequisiteChange = (field, value) => {
     const updated = { ...requisites, [field]: value }
     setRequisites(updated)
+
     try {
-      localStorage.setItem(REQUISITES_STORAGE_KEY, JSON.stringify(updated))
-    } catch (err) {
-      console.error('Ошибка сохранения реквизитов в localStorage', err)
+      localStorage.setItem(
+        REQUISITES_STORAGE_KEY,
+        JSON.stringify(updated),
+      )
+    } catch (error) {
+      console.error('Ошибка сохранения реквизитов:', error)
     }
   }
 
-  const handleCopy = (key, value) => {
+  const handleCopy = async (key, value) => {
     if (!value) return
-    navigator.clipboard.writeText(value).then(() => {
+
+    try {
+      await navigator.clipboard.writeText(value)
       setCopiedField(key)
-      setTimeout(() => setCopiedField(null), 1200)
-    }).catch(err => console.error('Ошибка копирования:', err))
+      clearTimeout(copyTimerRef.current)
+      copyTimerRef.current = setTimeout(
+        () => setCopiedField(null),
+        1200,
+      )
+    } catch {
+      alert('Не удалось скопировать. Выделите и скопируйте текст вручную.')
+    }
   }
 
-  const handleShareRequisites = () => {
-    const textToShare = `
-ФИО: ${requisites.fio}
-ИИН: ${requisites.iin}
-Дата рождения: ${requisites.birthdate}
-Номер документа: ${requisites.docNumber}
-Дата выдачи: ${requisites.issueDate}
-Срок действия: ${requisites.expiryDate}
-    `.trim()
+  const handleShareRequisites = async () => {
+    const text = FIELDS.map(
+      ([key, label]) => `${label}: ${requisites[key]}`,
+    ).join('\n')
 
-    if (navigator.share) {
-      navigator.share({
-        title: 'Удостоверение личности',
-        text: textToShare
-      }).catch(() => {})
-    } else {
-      navigator.clipboard.writeText(textToShare)
-      alert('Реквизиты скопированы!')
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Удостоверение личности',
+          text,
+        })
+      } else {
+        await navigator.clipboard.writeText(text)
+        alert('Реквизиты скопированы!')
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        alert('Не удалось отправить или скопировать реквизиты.')
+      }
     }
+  }
+
+  const presentDocument = () => {
+    setPresentationCode(
+      String(Math.floor(100000 + Math.random() * 900000)),
+    )
+    setPresenting(true)
   }
 
   return (
     <div className="id-screen">
-      {/* Верхняя часть страницы */}
-      <div className="id-main-content">
-        {/* Шапка */}
+      <div
+        className="id-main-content"
+        inert={presenting ? '' : undefined}
+      >
         <div className="id-header">
-          <button className="back-btn" onClick={onBack} aria-label="Назад">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M15 5L8 12L15 19" stroke="#1c1c1e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+          <button
+            className="back-btn"
+            onClick={onBack}
+            aria-label="Назад"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M15 5L8 12L15 19"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </button>
+
           <h1>Удостоверение личности</h1>
-          <div style={{ width: 22 }} />
+          <div className="id-header-spacer" />
         </div>
 
-        {/* Табы */}
         <div className="id-tabs">
-          <button 
-            className={`id-tab ${tab === 'document' ? 'id-tab--active' : ''}`} 
+          <button
+            className={`id-tab ${
+              tab === 'document' ? 'id-tab--active' : ''
+            }`}
             onClick={() => setTab('document')}
+            aria-pressed={tab === 'document'}
           >
             Документ
           </button>
-          <button 
-            className={`id-tab ${tab === 'requisites' ? 'id-tab--active' : ''}`} 
+
+          <button
+            className={`id-tab ${
+              tab === 'requisites' ? 'id-tab--active' : ''
+            }`}
             onClick={() => setTab('requisites')}
+            aria-pressed={tab === 'requisites'}
           >
             Реквизиты
           </button>
         </div>
 
-        {/* Содержимое вкладок */}
         {tab === 'document' ? (
           photo ? (
-            <div className="id-photo-wrap">
-              <img src={photo} alt="Удостоверение личности" className="id-photo" />
-            </div>
+            <button
+              className="id-photo-wrap"
+              aria-label="Заменить изображение документа"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <img
+                src={photo}
+                alt="Удостоверение личности"
+                className="id-photo"
+              />
+            </button>
           ) : (
             <div className="id-empty">
               <span>Документ не добавлен</span>
+              <button
+                className="id-upload"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                Добавить изображение
+              </button>
             </div>
           )
         ) : (
           <div className="id-requisites-list">
-            
-            <div className="req-item">
-              <label className="req-label">ФИО</label>
-              <div className="req-input-wrap">
-                <input
-                  type="text"
-                  className="req-input"
-                  value={requisites.fio}
-                  onChange={(e) => handleRequisiteChange('fio', e.target.value)}
-                />
-                <button className="copy-btn" onClick={() => handleCopy('fio', requisites.fio)}>
-                  {copiedField === 'fio' ? <span className="copied-toast">✓</span> : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="1.8">
-                      <rect x="9" y="9" width="12" height="12" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
+            {FIELDS.map(([key, label]) => (
+              <div className="req-item" key={key}>
+                <label className="req-label" htmlFor={`req-${key}`}>
+                  {label}
+                </label>
 
-            <div className="req-item">
-              <label className="req-label">ИИН</label>
-              <div className="req-input-wrap">
-                <input
-                  type="text"
-                  className="req-input"
-                  value={requisites.iin}
-                  onChange={(e) => handleRequisiteChange('iin', e.target.value)}
-                />
-                <button className="copy-btn" onClick={() => handleCopy('iin', requisites.iin)}>
-                  {copiedField === 'iin' ? <span className="copied-toast">✓</span> : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="1.8">
-                      <rect x="9" y="9" width="12" height="12" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
+                <div className="req-input-wrap">
+                  <input
+                    id={`req-${key}`}
+                    type="text"
+                    className="req-input"
+                    value={requisites[key]}
+                    onChange={(event) =>
+                      handleRequisiteChange(key, event.target.value)
+                    }
+                  />
 
-            <div className="req-item">
-              <label className="req-label">Дата рождения</label>
-              <div className="req-input-wrap">
-                <input
-                  type="text"
-                  className="req-input"
-                  value={requisites.birthdate}
-                  onChange={(e) => handleRequisiteChange('birthdate', e.target.value)}
-                />
-                <button className="copy-btn" onClick={() => handleCopy('birthdate', requisites.birthdate)}>
-                  {copiedField === 'birthdate' ? <span className="copied-toast">✓</span> : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="1.8">
-                      <rect x="9" y="9" width="12" height="12" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  )}
-                </button>
+                  <button
+                    className="copy-btn"
+                    aria-label={`Скопировать: ${label}`}
+                    onClick={() => handleCopy(key, requisites[key])}
+                  >
+                    {copiedField === key ? (
+                      <span className="copied-toast">✓</span>
+                    ) : (
+                      <CopyIcon />
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
-
-            <div className="req-item">
-              <label className="req-label">Номер документа</label>
-              <div className="req-input-wrap">
-                <input
-                  type="text"
-                  className="req-input"
-                  value={requisites.docNumber}
-                  onChange={(e) => handleRequisiteChange('docNumber', e.target.value)}
-                />
-                <button className="copy-btn" onClick={() => handleCopy('docNumber', requisites.docNumber)}>
-                  {copiedField === 'docNumber' ? <span className="copied-toast">✓</span> : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="1.8">
-                      <rect x="9" y="9" width="12" height="12" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="req-item">
-              <label className="req-label">Дата выдачи</label>
-              <div className="req-input-wrap">
-                <input
-                  type="text"
-                  className="req-input"
-                  value={requisites.issueDate}
-                  onChange={(e) => handleRequisiteChange('issueDate', e.target.value)}
-                />
-                <button className="copy-btn" onClick={() => handleCopy('issueDate', requisites.issueDate)}>
-                  {copiedField === 'issueDate' ? <span className="copied-toast">✓</span> : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="1.8">
-                      <rect x="9" y="9" width="12" height="12" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="req-item">
-              <label className="req-label">Срок действия</label>
-              <div className="req-input-wrap">
-                <input
-                  type="text"
-                  className="req-input"
-                  value={requisites.expiryDate}
-                  onChange={(e) => handleRequisiteChange('expiryDate', e.target.value)}
-                />
-                <button className="copy-btn" onClick={() => handleCopy('expiryDate', requisites.expiryDate)}>
-                  {copiedField === 'expiryDate' ? <span className="copied-toast">✓</span> : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="1.8">
-                      <rect x="9" y="9" width="12" height="12" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
+            ))}
           </div>
         )}
       </div>
@@ -264,31 +393,115 @@ export default function IdentityDocScreen({ onBack }) {
         accept="image/*"
         ref={fileInputRef}
         onChange={handleFileChange}
-        style={{ display: 'none' }}
+        hidden
       />
 
-      {/* Нижние кнопки */}
-      <div className="id-actions">
+      <div className="id-actions" inert={presenting ? '' : undefined}>
         {tab === 'document' ? (
           <>
-            <button className="id-btn id-btn--primary" onClick={() => fileInputRef.current?.click()}>
-              <img src="/icons/documentt.jpg" alt="предъявить" />
+            <button
+              ref={presentButtonRef}
+              className="id-btn id-btn--primary"
+              onClick={presentDocument}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="6" height="6" />
+                <rect x="15" y="3" width="6" height="6" />
+                <rect x="3" y="15" width="6" height="6" />
+                <path d="M15 15h3v3h3v3h-6v-3M21 12v3M12 3v9H3M12 15v6" />
+              </svg>
+              Предъявить документ
             </button>
-            <button className="id-btn id-btn--secondary" onClick={() => fileInputRef.current?.click()}>
-              <img src="/icons/senddocument.jpg" alt="отправить" />
+
+            <button
+              className="id-btn id-btn--secondary"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <ShareIcon />
+              Отправить документ
             </button>
           </>
         ) : (
-          <button className="id-btn id-btn--secondary" onClick={handleShareRequisites}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--kaspi-blue)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-              <polyline points="16 6 12 2 8 6"></polyline>
-              <line x1="12" y1="2" x2="12" y2="15"></line>
-            </svg>
+          <button
+            className="id-btn id-btn--secondary"
+            onClick={handleShareRequisites}
+          >
+            <ShareIcon />
             Отправить реквизиты
           </button>
         )}
       </div>
+
+      {presenting && (
+        <div
+          className="id-present-overlay"
+          onClick={() => setPresenting(false)}
+        >
+          <section
+            className="id-present-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="id-present-title"
+            aria-describedby="id-present-instruction"
+            onClick={(event) => event.stopPropagation()}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') {
+                setPresenting(false)
+              }
+
+              if (event.key === 'Tab') {
+                event.preventDefault()
+                closeButtonRef.current?.focus()
+              }
+            }}
+          >
+            <div className="id-sheet-handle" aria-hidden="true" />
+
+            <div className="id-sheet-header">
+              <h2 id="id-present-title">Удостоверение личности</h2>
+
+              <button
+                ref={closeButtonRef}
+                className="id-sheet-close"
+                aria-label="Закрыть"
+                onClick={() => setPresenting(false)}
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  aria-hidden="true"
+                >
+                  <path d="m5 5 14 14M19 5 5 19" />
+                </svg>
+              </button>
+            </div>
+
+            <p id="id-present-instruction">
+              Покажите QR-код сотруднику
+            </p>
+
+            <DemoQrCode />
+
+            <p className="id-code-caption">или скажите код</p>
+            <p className="id-presentation-code">
+              {presentationCode}
+            </p>
+          </section>
+        </div>
+      )}
     </div>
   )
 }
