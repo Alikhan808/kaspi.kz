@@ -125,6 +125,134 @@ function DemoQrCode() {
   )
 }
 
+
+function PhotoOverlay({ title, onClose, children, className = '' }) {
+  const panelRef = useRef(null)
+
+  useEffect(() => {
+    const trigger = document.activeElement
+    const scroller = panelRef.current?.closest('.phone-screen')?.querySelector('.screen-container')
+    const previousOverflow = scroller?.style.overflowY
+    if (scroller) scroller.style.overflowY = 'hidden'
+    panelRef.current?.querySelector('button')?.focus()
+    return () => {
+      if (scroller) scroller.style.overflowY = previousOverflow
+      trigger?.focus()
+    }
+  }, [])
+
+  return (
+    <div className="id-photo-overlay" onClick={onClose}>
+      <section
+        ref={panelRef}
+        className={`id-photo-dialog ${className}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        onClick={(event) => event.stopPropagation()}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') onClose()
+          if (event.key !== 'Tab') return
+          const buttons = [...panelRef.current.querySelectorAll('button:not(:disabled)')]
+          const first = buttons[0]
+          const last = buttons[buttons.length - 1]
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault()
+            last?.focus()
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault()
+            first?.focus()
+          }
+        }}
+      >
+        <header className="id-photo-dialog-header">
+          <h2>{title}</h2>
+          <button className="id-photo-close" aria-label="Закрыть" onClick={onClose}>×</button>
+        </header>
+        {children}
+      </section>
+    </div>
+  )
+}
+
+function PhotoViewer({ photo, onClose }) {
+  const [view, setView] = useState({ scale: 1, x: 0, y: 0 })
+  const gestureRef = useRef({ points: new Map(), start: null })
+  const clampScale = (scale) => Math.min(4, Math.max(1, scale))
+  const changeZoom = (delta) => setView((previous) => {
+    const scale = clampScale(previous.scale + delta)
+    return { scale, x: scale === 1 ? 0 : previous.x, y: scale === 1 ? 0 : previous.y }
+  })
+
+  const beginGesture = () => {
+    const points = [...gestureRef.current.points.values()]
+    const center = points.length === 2
+      ? { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 }
+      : points[0]
+    const distance = points.length === 2
+      ? Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y)
+      : 0
+    gestureRef.current.start = center ? { ...view, center, distance } : null
+  }
+
+  return (
+    <PhotoOverlay title="Просмотр документа" onClose={onClose} className="id-photo-viewer">
+      <div
+        className="id-zoom-stage"
+        onWheel={(event) => changeZoom(event.deltaY < 0 ? 0.25 : -0.25)}
+        onPointerDown={(event) => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return
+          event.currentTarget.setPointerCapture(event.pointerId)
+          gestureRef.current.points.set(event.pointerId, { x: event.clientX, y: event.clientY })
+          beginGesture()
+        }}
+        onPointerMove={(event) => {
+          const gesture = gestureRef.current
+          if (!gesture.points.has(event.pointerId) || !gesture.start) return
+          gesture.points.set(event.pointerId, { x: event.clientX, y: event.clientY })
+          const points = [...gesture.points.values()]
+          const center = points.length === 2
+            ? { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 }
+            : points[0]
+          const distance = points.length === 2
+            ? Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y)
+            : 0
+          const scale = gesture.start.distance > 0
+            ? clampScale(gesture.start.scale * distance / gesture.start.distance)
+            : gesture.start.scale
+          setView({
+            scale,
+            x: scale === 1 ? 0 : gesture.start.x + center.x - gesture.start.center.x,
+            y: scale === 1 ? 0 : gesture.start.y + center.y - gesture.start.center.y,
+          })
+        }}
+        onPointerUp={(event) => {
+          gestureRef.current.points.delete(event.pointerId)
+          beginGesture()
+        }}
+        onPointerCancel={(event) => {
+          gestureRef.current.points.delete(event.pointerId)
+          beginGesture()
+        }}
+        onDoubleClick={() => setView({ scale: view.scale === 1 ? 2 : 1, x: 0, y: 0 })}
+      >
+        <img
+          src={photo}
+          alt="Увеличенное изображение документа"
+          draggable={false}
+          style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}
+        />
+      </div>
+      <div className="id-zoom-controls">
+        <button aria-label="Уменьшить" disabled={view.scale <= 1} onClick={() => changeZoom(-0.5)}>−</button>
+        <output aria-live="polite">{Math.round(view.scale * 100)}%</output>
+        <button aria-label="Увеличить" disabled={view.scale >= 4} onClick={() => changeZoom(0.5)}>+</button>
+        <button onClick={() => setView({ scale: 1, x: 0, y: 0 })}>Сбросить</button>
+      </div>
+    </PhotoOverlay>
+  )
+}
+
 export default function IdentityDocScreen({ onBack }) {
   const [tab, setTab] = useState('document')
   const [photo, setPhoto] = useState(null)
@@ -132,6 +260,8 @@ export default function IdentityDocScreen({ onBack }) {
   const [copiedField, setCopiedField] = useState(null)
   const [presenting, setPresenting] = useState(false)
   const [presentationCode, setPresentationCode] = useState('')
+  const [photoDialog, setPhotoDialog] = useState(null)
+  const modalOpen = presenting || photoDialog !== null
 
   const fileInputRef = useRef(null)
   const closeButtonRef = useRef(null)
@@ -276,7 +406,7 @@ export default function IdentityDocScreen({ onBack }) {
     <div className="id-screen">
       <div
         className="id-main-content"
-        inert={presenting ? '' : undefined}
+        inert={modalOpen ? '' : undefined}
       >
         <div className="id-header">
           <button
@@ -331,8 +461,8 @@ export default function IdentityDocScreen({ onBack }) {
           photo ? (
             <button
               className="id-photo-wrap"
-              aria-label="Заменить изображение документа"
-              onClick={() => fileInputRef.current?.click()}
+              aria-label="Увеличить фотографию документа"
+              onClick={() => setPhotoDialog('viewer')}
             >
               <img
                 src={photo}
@@ -343,12 +473,7 @@ export default function IdentityDocScreen({ onBack }) {
           ) : (
             <div className="id-empty">
               <span>Документ не добавлен</span>
-              <button
-                className="id-upload"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                Добавить изображение
-              </button>
+              <p className="id-empty-hint">Добавьте фото через «Отправить документ»</p>
             </div>
           )
         ) : (
@@ -396,7 +521,7 @@ export default function IdentityDocScreen({ onBack }) {
         hidden
       />
 
-      <div className="id-actions" inert={presenting ? '' : undefined}>
+      <div className="id-actions" inert={modalOpen ? '' : undefined}>
         {tab === 'document' ? (
           <>
             <button
@@ -414,7 +539,7 @@ export default function IdentityDocScreen({ onBack }) {
 
             <button
               className="id-btn id-btn--secondary"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => setPhotoDialog('manage')}
             >
               <ShareIcon />
               Отправить документ
@@ -430,6 +555,37 @@ export default function IdentityDocScreen({ onBack }) {
           </button>
         )}
       </div>
+
+      {photoDialog === 'viewer' && photo && (
+        <PhotoViewer photo={photo} onClose={() => setPhotoDialog(null)} />
+      )}
+
+      {photoDialog === 'manage' && (
+        <PhotoOverlay title="Фотография документа" onClose={() => setPhotoDialog(null)} className="id-photo-manage">
+          <button
+            className="id-photo-menu-item"
+            onClick={() => {
+              fileInputRef.current?.click()
+              setPhotoDialog(null)
+            }}
+          >
+            {photo ? 'Заменить фотографию' : 'Добавить фотографию'}
+          </button>
+          {photo && (
+            <button className="id-photo-menu-item id-photo-delete" onClick={() => {
+              try {
+                localStorage.removeItem(PHOTO_STORAGE_KEY)
+                setPhoto(null)
+                setPhotoDialog(null)
+              } catch {
+                alert('Не удалось удалить сохранённую фотографию.')
+              }
+            }}>
+              Удалить фотографию
+            </button>
+          )}
+        </PhotoOverlay>
+      )}
 
       {presenting && (
         <div
