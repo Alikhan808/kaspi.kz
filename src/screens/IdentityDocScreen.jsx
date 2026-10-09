@@ -404,21 +404,12 @@ export default function IdentityDocScreen({ onBack }) {
               className="id-btn id-btn--primary"
               onClick={presentDocument}
             >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                aria-hidden="true"
-              >
-                <rect x="3" y="3" width="6" height="6" />
-                <rect x="15" y="3" width="6" height="6" />
-                <rect x="3" y="15" width="6" height="6" />
-                <path d="M15 15h3v3h3v3h-6v-3M21 12v3M12 3v9H3M12 15v6" />
-              </svg>
-              Предъявить документ
+              
+              { 
+                label: 'document',
+                icon: <img src="/icons/documentt.jpg" alt="Предъявить" />,
+              },
+            
             </button>
 
             <button
