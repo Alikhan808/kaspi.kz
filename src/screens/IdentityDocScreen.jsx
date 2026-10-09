@@ -403,7 +403,13 @@ export default function IdentityDocScreen({ onBack }) {
               ref={presentButtonRef}
               className="id-btn id-btn--primary"
               onClick={presentDocument}
-              icon: <img src="/icons/documentt.jpg" alt="document" />,
+              style={{ padding: 0, height: 'auto', overflow: 'hidden', background: 'transparent' }}
+            >
+              <img
+                src="/icons/documentt.jpg"
+                alt="Предъявить документ"
+                style={{ display: 'block', width: '100%', height: 'auto' }}
+              />
             </button>
 
             <button
