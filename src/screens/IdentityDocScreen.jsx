@@ -175,81 +175,161 @@ function PhotoOverlay({ title, onClose, children, className = '' }) {
   )
 }
 
-function PhotoViewer({ photo, onClose }) {
-  const [view, setView] = useState({ scale: 1, x: 0, y: 0 })
-  const gestureRef = useRef({ points: new Map(), start: null })
-  const clampScale = (scale) => Math.min(4, Math.max(1, scale))
-  const changeZoom = (delta) => setView((previous) => {
-    const scale = clampScale(previous.scale + delta)
-    return { scale, x: scale === 1 ? 0 : previous.x, y: scale === 1 ? 0 : previous.y }
-  })
+function ZoomablePhoto({ photo }) {
+  const stageRef = useRef(null)
+  const viewRef = useRef({ scale: 1, x: 0, y: 0 })
+  const gestureRef = useRef({ points: new Map(), start: null, lastTap: 0, lastTouch: 0, moved: false })
+  const [view, setView] = useState(viewRef.current)
+
+  const applyView = (next) => {
+    const stage = stageRef.current
+    const scale = Math.min(4, Math.max(1, next.scale))
+    const maxX = (stage?.clientWidth || 0) * (scale - 1) / 2
+    const maxY = (stage?.clientHeight || 0) * (scale - 1) / 2
+    const bounded = {
+      scale,
+      x: Math.max(-maxX, Math.min(maxX, next.x)),
+      y: Math.max(-maxY, Math.min(maxY, next.y)),
+    }
+    viewRef.current = bounded
+    setView(bounded)
+  }
+
+  const position = (point) => {
+    const rect = stageRef.current.getBoundingClientRect()
+    return { x: point.x - rect.left - rect.width / 2, y: point.y - rect.top - rect.height / 2 }
+  }
+
+  const zoomAt = (scale, point = { x: 0, y: 0 }) => {
+    const current = viewRef.current
+    const nextScale = Math.min(4, Math.max(1, scale))
+    const ratio = nextScale / current.scale
+    applyView({
+      scale: nextScale,
+      x: point.x - (point.x - current.x) * ratio,
+      y: point.y - (point.y - current.y) * ratio,
+    })
+  }
 
   const beginGesture = () => {
     const points = [...gestureRef.current.points.values()]
+    if (!points.length) {
+      gestureRef.current.start = null
+      return
+    }
     const center = points.length === 2
       ? { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 }
       : points[0]
-    const distance = points.length === 2
-      ? Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y)
-      : 0
-    gestureRef.current.start = center ? { ...view, center, distance } : null
+    gestureRef.current.start = {
+      ...viewRef.current,
+      center: position(center),
+      distance: points.length === 2
+        ? Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y)
+        : 0,
+    }
   }
 
+  useEffect(() => {
+    const stage = stageRef.current
+    const handleWheel = (event) => {
+      event.preventDefault()
+      zoomAt(viewRef.current.scale * Math.exp(-event.deltaY * 0.002), position({ x: event.clientX, y: event.clientY }))
+    }
+    const resize = new ResizeObserver(() => applyView(viewRef.current))
+    resize.observe(stage)
+    stage.addEventListener('wheel', handleWheel, { passive: false })
+    return () => {
+      resize.disconnect()
+      stage.removeEventListener('wheel', handleWheel)
+    }
+  }, [])
+
   return (
-    <PhotoOverlay title="Просмотр документа" onClose={onClose} className="id-photo-viewer">
-      <div
-        className="id-zoom-stage"
-        onWheel={(event) => changeZoom(event.deltaY < 0 ? 0.25 : -0.25)}
-        onPointerDown={(event) => {
-          if (event.pointerType === 'mouse' && event.button !== 0) return
-          event.currentTarget.setPointerCapture(event.pointerId)
-          gestureRef.current.points.set(event.pointerId, { x: event.clientX, y: event.clientY })
-          beginGesture()
-        }}
-        onPointerMove={(event) => {
-          const gesture = gestureRef.current
-          if (!gesture.points.has(event.pointerId) || !gesture.start) return
-          gesture.points.set(event.pointerId, { x: event.clientX, y: event.clientY })
-          const points = [...gesture.points.values()]
-          const center = points.length === 2
-            ? { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 }
-            : points[0]
-          const distance = points.length === 2
-            ? Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y)
-            : 0
-          const scale = gesture.start.distance > 0
-            ? clampScale(gesture.start.scale * distance / gesture.start.distance)
-            : gesture.start.scale
-          setView({
-            scale,
-            x: scale === 1 ? 0 : gesture.start.x + center.x - gesture.start.center.x,
-            y: scale === 1 ? 0 : gesture.start.y + center.y - gesture.start.center.y,
-          })
-        }}
-        onPointerUp={(event) => {
-          gestureRef.current.points.delete(event.pointerId)
-          beginGesture()
-        }}
-        onPointerCancel={(event) => {
-          gestureRef.current.points.delete(event.pointerId)
-          beginGesture()
-        }}
-        onDoubleClick={() => setView({ scale: view.scale === 1 ? 2 : 1, x: 0, y: 0 })}
-      >
-        <img
-          src={photo}
-          alt="Увеличенное изображение документа"
-          draggable={false}
-          style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}
-        />
-      </div>
-      <div className="id-zoom-controls">
-        <button aria-label="Уменьшить" disabled={view.scale <= 1} onClick={() => changeZoom(-0.5)}>−</button>
-        <output aria-live="polite">{Math.round(view.scale * 100)}%</output>
-        <button aria-label="Увеличить" disabled={view.scale >= 4} onClick={() => changeZoom(0.5)}>+</button>
-        <button onClick={() => setView({ scale: 1, x: 0, y: 0 })}>Сбросить</button>
-      </div>
-    </PhotoOverlay>
+    <div
+      ref={stageRef}
+      className="id-photo-wrap id-photo-zoom"
+      tabIndex={0}
+      role="group"
+      aria-label="Фотография документа. Увеличение: жест двумя пальцами, колесо мыши или клавиши плюс и минус. Сброс: двойное нажатие или клавиша 0."
+      onDoubleClick={(event) => {
+        if (performance.now() - gestureRef.current.lastTouch < 600) return
+        zoomAt(viewRef.current.scale === 1 ? 2 : 1, position({ x: event.clientX, y: event.clientY }))
+      }}
+      onKeyDown={(event) => {
+        const current = viewRef.current
+        if (['+', '=', '-', '0', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) event.preventDefault()
+        if (event.key === '+' || event.key === '=') zoomAt(current.scale + 0.5)
+        if (event.key === '-') zoomAt(current.scale - 0.5)
+        if (event.key === '0') applyView({ scale: 1, x: 0, y: 0 })
+        if (event.key === 'ArrowLeft') applyView({ ...current, x: current.x + 30 })
+        if (event.key === 'ArrowRight') applyView({ ...current, x: current.x - 30 })
+        if (event.key === 'ArrowUp') applyView({ ...current, y: current.y + 30 })
+        if (event.key === 'ArrowDown') applyView({ ...current, y: current.y - 30 })
+      }}
+      onPointerDown={(event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return
+        const gesture = gestureRef.current
+        if (event.pointerType === 'touch') gesture.lastTouch = performance.now()
+        if (gesture.points.size >= 2) return
+        event.currentTarget.setPointerCapture(event.pointerId)
+        gesture.points.set(event.pointerId, { x: event.clientX, y: event.clientY })
+        if (gesture.points.size === 1) gesture.moved = false
+        else {
+          gesture.moved = true
+          gesture.lastTap = 0
+        }
+        beginGesture()
+      }}
+      onPointerMove={(event) => {
+        const gesture = gestureRef.current
+        if (!gesture.points.has(event.pointerId) || !gesture.start) return
+        gesture.points.set(event.pointerId, { x: event.clientX, y: event.clientY })
+        const points = [...gesture.points.values()]
+        const center = position(points.length === 2
+          ? { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 }
+          : points[0])
+        const start = gesture.start
+        if (Math.hypot(center.x - start.center.x, center.y - start.center.y) > 5) gesture.moved = true
+        const distance = points.length === 2
+          ? Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y)
+          : 0
+        const scale = start.distance > 0
+          ? Math.min(4, Math.max(1, start.scale * distance / start.distance))
+          : start.scale
+        const ratio = scale / start.scale
+        applyView({
+          scale,
+          x: center.x - (start.center.x - start.x) * ratio,
+          y: center.y - (start.center.y - start.y) * ratio,
+        })
+      }}
+      onPointerUp={(event) => {
+        const gesture = gestureRef.current
+        if (!gesture.points.has(event.pointerId)) return
+        if (event.pointerType === 'touch' && gesture.points.size === 1 && !gesture.moved) {
+          const now = performance.now()
+          if (gesture.lastTap && now - gesture.lastTap < 300) {
+            zoomAt(viewRef.current.scale === 1 ? 2 : 1, position({ x: event.clientX, y: event.clientY }))
+            gesture.lastTap = 0
+          } else gesture.lastTap = now
+        }
+        gesture.points.delete(event.pointerId)
+        beginGesture()
+      }}
+      onPointerCancel={(event) => {
+        gestureRef.current.points.delete(event.pointerId)
+        gestureRef.current.lastTap = 0
+        beginGesture()
+      }}
+    >
+      <img
+        src={photo}
+        alt="Удостоверение личности"
+        className="id-photo"
+        draggable={false}
+        style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}
+      />
+    </div>
   )
 }
 
@@ -459,17 +539,7 @@ export default function IdentityDocScreen({ onBack }) {
 
         {tab === 'document' ? (
           photo ? (
-            <button
-              className="id-photo-wrap"
-              aria-label="Увеличить фотографию документа"
-              onClick={() => setPhotoDialog('viewer')}
-            >
-              <img
-                src={photo}
-                alt="Удостоверение личности"
-                className="id-photo"
-              />
-            </button>
+            <ZoomablePhoto key={photo} photo={photo} />
           ) : (
             <div className="id-empty">
               <span>Документ не добавлен</span>
@@ -555,10 +625,6 @@ export default function IdentityDocScreen({ onBack }) {
           </button>
         )}
       </div>
-
-      {photoDialog === 'viewer' && photo && (
-        <PhotoViewer photo={photo} onClose={() => setPhotoDialog(null)} />
-      )}
 
       {photoDialog === 'manage' && (
         <PhotoOverlay title="Фотография документа" onClose={() => setPhotoDialog(null)} className="id-photo-manage">
