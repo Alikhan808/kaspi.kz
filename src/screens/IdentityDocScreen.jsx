@@ -403,13 +403,7 @@ export default function IdentityDocScreen({ onBack }) {
               ref={presentButtonRef}
               className="id-btn id-btn--primary"
               onClick={presentDocument}
-            >
-              
-              { 
-                label: 'document',
-                icon: <img src="/icons/documentt.jpg" alt="Предъявить" />,
-              },
-            
+              icon: <img src="/icons/documentt.jpg" alt="document" />,
             </button>
 
             <button
